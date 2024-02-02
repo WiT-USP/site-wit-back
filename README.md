@@ -40,7 +40,7 @@ Esses comandos vão ser suficientes para ler todos as pastas "src/routes" e cria
 
 Desenvolcvimento iniciado.
 
-[x] Conexão com banco local bem sucedida
-[x] Get de infos do BD
-[] Criar classe para auxiliar na criação de diferentes conexões com o BD
-[] Facilitador de query
+- [x] Conexão com banco local bem sucedida
+- [x] Get de infos do BD
+- [] Criar classe para auxiliar na criação de diferentes conexões com o BD
+- [] Facilitador de query
