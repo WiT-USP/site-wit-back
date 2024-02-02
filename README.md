@@ -42,5 +42,5 @@ Desenvolcvimento iniciado.
 
 - [x] Conexão com banco local bem sucedida
 - [x] Get de infos do BD
-- [] Criar classe para auxiliar na criação de diferentes conexões com o BD
-- [] Facilitador de query
+- [ ] Criar classe para auxiliar na criação de diferentes conexões com o BD
+- [ ] Facilitador de query
