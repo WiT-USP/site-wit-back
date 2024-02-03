@@ -38,9 +38,9 @@ Esses comandos vão ser suficientes para ler todos as pastas "src/routes" e cria
 
 ### GaiaDB
 
-Desenvolcvimento iniciado.
+Em etapa inicial de desenvolviment:
 
-- [x] Conexão com banco local bem sucedida
-- [x] Get de infos do BD
-- [ ] Criar classe para auxiliar na criação de diferentes conexões com o BD
-- [ ] Facilitador de query
+[x] conexão com banco local bem sucedida
+[x] primeiro get de infos do banco
+[x] criar classe que gerencie os diferentes tipos de conexões com pg
+[] criar métodos facilitadores de chamadas de query

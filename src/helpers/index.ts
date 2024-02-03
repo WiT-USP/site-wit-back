@@ -1,4 +1,4 @@
-import { GaiaDBHelper } from "./gaia/gaia-db-helper";
-import { GaiaRouterHelper } from "./gaia/gaia-routes-helper";
+import { GaiaClientDb, GaiaPoolDb } from "./gaia/gaia-db";
+import { GaiaRouterHelper } from "./gaia/gaia-routes";
 
-export { GaiaDBHelper, GaiaRouterHelper };
+export { GaiaClientDb, GaiaPoolDb, GaiaRouterHelper };

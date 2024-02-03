@@ -1,4 +1,4 @@
-import { GaiaDB } from "./services/database";
+import { GaiaClientDb } from "./services/database";
 import { GaiaRoutes } from "./services/routes";
 
-export { GaiaDB, GaiaRoutes };
+export { GaiaClientDb, GaiaRoutes };

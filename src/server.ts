@@ -1,12 +1,12 @@
 import dotenv from "dotenv";
-import { GaiaDBHelper, GaiaRouterHelper } from "./helpers/index";
+import { GaiaPoolDb, GaiaRouterHelper } from "./helpers/index";
 
 dotenv.config();
 
 const gaia = new GaiaRouterHelper();
-const db = new GaiaDBHelper();
+const db = new GaiaPoolDb();
 
 // Formato apenas para testes
 gaia.callRoutes().then(() => {
-  db.connectDB();
+  db.connect();
 });

@@ -11,7 +11,7 @@ export class GaiaRoutes {
   private app: Express;
 
   constructor(app: Express, base: string) {
-    this.base = base; // Tornar dinâmico
+    this.base = base;
     this.routes = [];
     this.app = app;
   }
