@@ -29,9 +29,9 @@ A biblioteca que centraliza isso é a "gaia".
 Para chmamar basta fazer como nas linhas mostradas aqui:
 
 ```
-const gaia = new GaiaRoutes()
+const gaia = new GaiaRouterHelper();
 
-gaia.createAllRoutes()
+gaia.callRoutes()
 ```
 
 Esses comandos vão ser suficientes para ler todos as pastas "src/routes" e criar as rotas correspondentes a cada arquivo criado de acordo com nosso parâmetro de padronização de diretórios.
@@ -40,7 +40,7 @@ Esses comandos vão ser suficientes para ler todos as pastas "src/routes" e cria
 
 Em etapa inicial de desenvolviment:
 
-[x] conexão com banco local bem sucedida
-[x] primeiro get de infos do banco
-[x] criar classe que gerencie os diferentes tipos de conexões com pg
-[] criar métodos facilitadores de chamadas de query
+- [x] conexão com banco local bem sucedida
+- [x] primeiro get de infos do banco
+- [x] criar classe que gerencie os diferentes tipos de conexões com pg
+- [ ] criar métodos facilitadores de chamadas de query
