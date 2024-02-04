@@ -43,4 +43,4 @@ Em etapa inicial de desenvolviment:
 - [x] conexão com banco local bem sucedida
 - [x] primeiro get de infos do banco
 - [x] criar classe que gerencie os diferentes tipos de conexões com pg
-- [ ] criar métodos facilitadores de chamadas de query
+- [ ] criar métodos facilitadores de chamadas de query (Quase prontoo)
