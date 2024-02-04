@@ -1,6 +1,12 @@
 import pg, { PoolClient } from "pg";
-import { ClientTransation } from "./client-transaction";
 const { Pool } = pg;
+
+import { ClientTransation } from "./client-transaction";
+import { queryFormat } from "./formatingQuery";
+import {
+  GaiaClienteQueryParams,
+  GaiaClienteQueryWithoutFormattingParams,
+} from "./types";
 
 export class GaiaClientDb {
   private client: PoolClient;
@@ -11,14 +17,24 @@ export class GaiaClientDb {
     this.transaction = new ClientTransation(client);
   }
 
-  async query() {
-    // aqui vai ficar a lógica que vai abstrair a chamada de query no BD, de forma passar apenas dois parametros query: string e values: Object
-    // Provável que vai ser necessário uma func de formatar
+  async query(params: GaiaClienteQueryParams) {
+    const { query, values } = queryFormat(params);
+    console.log("[GaiaClientDb] Query formated:", query, values);
+    const { rows } = await this.client.query({ text: query, values });
+
+    return rows;
   }
 
-  queryWithoutFormatting() {
-    // vai ser algo muito próximo do método padrão de query do próprio pg
+  async queryWithoutFormatting(
+    params: GaiaClienteQueryWithoutFormattingParams
+  ) {
+    const values = params.values || [];
+    console.log("[GaiaClientDb] Query:", params.query, values);
+    const { rows } = await this.client.query({ text: params.query, values });
+
+    return rows;
   }
+
   release() {
     this.client.release();
   }
