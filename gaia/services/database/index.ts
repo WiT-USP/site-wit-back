@@ -17,7 +17,7 @@ export class GaiaClientDb {
     this.transaction = new ClientTransation(client);
   }
 
-  async query(params: GaiaClienteQueryParams) {
+  async query(params: GaiaClienteQueryWithoutFormattingParams) {
     const { query, values } = queryFormat(params);
     console.log("[GaiaClientDb] Query formated:", query, values);
     const { rows } = await this.client.query({ text: query, values });
@@ -25,9 +25,7 @@ export class GaiaClientDb {
     return rows;
   }
 
-  async queryWithoutFormatting(
-    params: GaiaClienteQueryWithoutFormattingParams
-  ) {
+  async queryWithoutFormatting(params: GaiaClienteQueryParams) {
     const values = params.values || [];
     console.log("[GaiaClientDb] Query:", params.query, values);
     const { rows } = await this.client.query({ text: params.query, values });
