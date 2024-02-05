@@ -38,9 +38,26 @@ Esses comandos vão ser suficientes para ler todos as pastas "src/routes" e cria
 
 ### GaiaDB
 
-Em etapa inicial de desenvolviment:
+Para utilizas do GaiaDb, basta fazer o seguinte no seu arquivo controller.ts:
 
-- [x] conexão com banco local bem sucedida
-- [x] primeiro get de infos do banco
-- [x] criar classe que gerencie os diferentes tipos de conexões com pg
-- [ ] criar métodos facilitadores de chamadas de query (Quase prontoo)
+importações:
+
+```
+import { GaiaClientDb, GaiaPoolDb } from "helpers";
+```
+
+Declarar fora da classe controller:
+
+```
+const pool = new GaiaPoolDb();
+```
+
+Dentro:
+
+```
+const client = await pool.connect();
+```
+
+E criar uma função para escrever sua query, como pode ver na rota de que deixei de exemplo `api/routes/users/{userId}/GET/controller.ts`, tem a função chamada `getUserById()`
+
+E não pode esquecer de finalziar o controller com o

@@ -1,25 +1,49 @@
+import { GaiaClientDb, GaiaPoolDb } from "helpers";
 import { Controller } from "protocols/controller";
 import { HttpRequest, HttpResponse } from "protocols/http";
+
+const pool = new GaiaPoolDb();
 
 export class GetUserController implements Controller {
   async handle(request: HttpRequest): Promise<HttpResponse> {
     console.log("Start event Controller: ", request);
 
-    const userId = request?.params?.userId!;
+    const userId = parseInt(request?.params?.userId!);
+
+    const client = await pool.connect();
 
     try {
-      const hello = `Hello GET user/${userId}`;
-      console.log(hello);
+      const user = await getUserById(client, userId);
 
       return {
         statusCode: 200,
-        body: hello,
+        body: user,
       };
     } catch (err) {
       console.error(err);
+
       return {
         statusCode: 500,
       };
+    } finally {
+      client.release();
     }
   }
+}
+
+async function getUserById(client: GaiaClientDb, userId: number) {
+  const response = await client.query({
+    query: `
+      SELECT 
+        name, 
+        email 
+      FROM "user" 
+      WHERE id = $userId
+    `,
+    values: {
+      userId: userId,
+    },
+  });
+
+  return response[0] as number;
 }
