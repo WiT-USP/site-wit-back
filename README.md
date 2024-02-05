@@ -60,4 +60,6 @@ const client = await pool.connect();
 
 E criar uma função para escrever sua query, como pode ver na rota de que deixei de exemplo `api/routes/users/{userId}/GET/controller.ts`, tem a função chamada `getUserById()`
 
-E não pode esquecer de finalziar o controller com o
+E não pode esquecer de finalziar o controller com o `client.release()`.
+
+Há outras funções vindas do GaiaDB, mas isso exploro mais para frente, são casos mais específicos.
