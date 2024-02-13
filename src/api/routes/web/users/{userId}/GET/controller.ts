@@ -31,19 +31,23 @@ export class GetUserController implements Controller {
   }
 }
 
+interface User {
+  name: string;
+  email: string;
+}
+
 async function getUserById(client: GaiaClientDb, userId: number) {
   const response = await client.query({
     query: `
       SELECT 
         name, 
-        email 
+        email   
       FROM "user" 
-      WHERE id = $userId
     `,
     values: {
       userId: userId,
     },
   });
 
-  return response[0] as number;
+  return response as User[];
 }
