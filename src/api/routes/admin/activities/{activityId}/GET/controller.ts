@@ -36,7 +36,7 @@ export class GetActivityByIdController implements Controller {
 async function getActivityById(client: GaiaClientDb, activityId: number) {
   const response = await client.query({
     query: `
-      SELECT  
+      SELECT
         a.name AS "activityName",
         a.start_time AS "startTime",
         a.end_time AS "endTime",
