@@ -13,22 +13,24 @@ export class CreatEventController implements Controller {
 
     const body = request.body;
 
-    // [VER DEPOIS] Adicionar tratativa de aramazenamento de imagens no bucket.
+    // [VER DEPOIS]
+    // [1] Adicionar tratativa de aramazenamento de imagens no bucket.
+    // [2] Criar validações
     try {
-      const events = await createEvent(client, {
+      await createEvent(client, {
         eventName: body.eventName,
         startDate: body.startDate,
         endDate: body.endDate,
-        description: body.description,
-        cover: body.cover,
-        coffeValue: body.coffeValue,
-        coffeePaymentLink: body.coffeePaymentLink,
-        driveGaleryLink: body.driveGaleryLink,
+        description: body?.description,
+        cover: body?.cover,
+        coffeValue: body?.coffeValue,
+        coffeePaymentLink: body?.coffeePaymentLink,
+        driveGalleryLink: body?.driveGaleryLink,
       });
 
       return {
         statusCode: 200,
-        body: events,
+        body: { success: true },
       };
     } catch (err) {
       console.error(err);
@@ -50,20 +52,20 @@ interface CreateEventParams {
   cover?: string;
   coffeValue?: string;
   coffeePaymentLink?: string;
-  driveGaleryLink?: string;
+  driveGalleryLink?: string;
 }
 
 async function createEvent(client: GaiaClientDb, params: CreateEventParams) {
   await client.query({
     query: `
-      INSERT INTO "event" (name, description, cover, galery_url, coffee_payment_url, coffee_value, start_date, end_date)
-      VALUES ($name, $description, $cover, $galeryUrl, $coffeePaymentUrl, $coffeeValue, $startDate, $endDate)
+      INSERT INTO "event" (name, description, cover, gallery_url, coffee_payment_url, coffee_value, start_date, end_date)
+      VALUES ($name, $description, $cover, $galleryUrl, $coffeePaymentUrl, $coffeeValue, $startDate, $endDate)
     `,
     values: {
       name: params.eventName,
       description: params.description || null,
       cover: params.cover || null,
-      galeryUrl: params.driveGaleryLink || null,
+      galleryUrl: params.driveGalleryLink || null,
       coffeePaymentUrl: params.coffeePaymentLink || null,
       coffeeValue: params.coffeValue || null,
       startDate: params.startDate,
