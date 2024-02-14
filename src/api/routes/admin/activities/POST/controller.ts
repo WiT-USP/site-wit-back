@@ -14,8 +14,7 @@ export class CreatEventController implements Controller {
     const body = request.body;
 
     // [VER DEPOIS]
-    // [1] Adicionar tratativa de aramazenamento de imagens no bucket.
-    // [2] Criar validações
+    // [1] Criar validações
     try {
       await createActivity(client, {
         activityName: body.activityName,
