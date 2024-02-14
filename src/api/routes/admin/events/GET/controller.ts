@@ -48,6 +48,7 @@ async function getEvents(client: GaiaClientDb) {
           ELSE false 
           END AS "hasCoffee"
       FROM "event"
+      ORDER BY id
     `,
     values: {},
   });
