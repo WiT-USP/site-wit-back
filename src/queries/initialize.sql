@@ -17,7 +17,7 @@ CREATE TABLE "user" (
 	active bool NOT NULL DEFAULT TRUE,
 	created_at timestamptz NOT NULL DEFAULT now(),
 	updated_at timestamptz NOT NULL DEFAULT now(),
-	FOREIGN KEY (permission_id) REFERENCES user_permission(id)
+	FOREIGN KEY (permission_id) REFERENCES permission(id)
 );
 
 
@@ -50,7 +50,7 @@ CREATE TABLE "activity" (
 	active bool NOT NULL DEFAULT TRUE,
 	created_at timestamptz NOT NULL DEFAULT now(),
 	updated_at timestamptz NOT NULL DEFAULT now(),
-	FOREIGN KEY (event_id) REFERENCES "event"(id),
+	FOREIGN KEY (event_id) REFERENCES "event"(id)
 );
 
 CREATE TABLE "certificate" (
@@ -62,7 +62,7 @@ CREATE TABLE "certificate" (
 	active bool NOT NULL DEFAULT TRUE,
 	created_at timestamptz NOT NULL DEFAULT now(),
 	updated_at timestamptz NOT NULL DEFAULT now(),
-	FOREIGN KEY (activity_id) REFERENCES "activity"(id),
+	FOREIGN KEY (activity_id) REFERENCES "activity"(id)
 );
 
 CREATE TABLE "user_activity" (
@@ -75,7 +75,7 @@ CREATE TABLE "user_activity" (
 	active bool NOT NULL DEFAULT TRUE,
 	created_at timestamptz NOT NULL DEFAULT now(),
 	updated_at timestamptz NOT NULL DEFAULT now(),
-	FOREIGN KEY (activity_id) REFERENCES "activity"(id),
+	FOREIGN KEY (activity_id) REFERENCES "activity"(id)
 );
 
 CREATE TABLE "user_activity_certificate" (

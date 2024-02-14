@@ -1,6 +1,7 @@
 import { GaiaClientDb, GaiaPoolDb } from "helpers";
 import { Controller } from "protocols/controller";
 import { HttpRequest, HttpResponse } from "protocols/http";
+import { User } from "./types";
 
 const pool = new GaiaPoolDb();
 
@@ -31,11 +32,6 @@ export class GetUserController implements Controller {
   }
 }
 
-interface User {
-  name: string;
-  email: string;
-}
-
 async function getUserById(client: GaiaClientDb, userId: number) {
   const response = await client.query({
     query: `
@@ -43,11 +39,12 @@ async function getUserById(client: GaiaClientDb, userId: number) {
         name, 
         email   
       FROM "user" 
+      WHERE id = $userId
     `,
     values: {
       userId: userId,
     },
   });
 
-  return response as User[];
+  return response[0] as User;
 }
