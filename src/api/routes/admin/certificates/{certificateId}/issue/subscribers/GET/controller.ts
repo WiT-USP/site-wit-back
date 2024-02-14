@@ -40,6 +40,7 @@ async function getSubscribersInActivity(
     query: `
     SELECT 
       u.id AS "userId",
+      ua.id AS "userActivityId",
       u."name" AS "name",
       u.email AS "email"
     FROM certificate c
