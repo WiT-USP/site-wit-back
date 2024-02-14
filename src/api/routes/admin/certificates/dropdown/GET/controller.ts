@@ -16,7 +16,7 @@ export class GetDropdownActivitiesController implements Controller {
 
       return {
         statusCode: 200,
-        body: { activitiesDropdown },
+        body: activitiesDropdown,
       };
     } catch (err) {
       console.error(err);
