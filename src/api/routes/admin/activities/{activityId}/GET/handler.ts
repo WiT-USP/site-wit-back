@@ -1,4 +1,4 @@
 import { adaptExpressProxyEvent } from "adapters/express-proxy-handler";
-import { GetActivitiesController } from "./controller";
+import { GetActivityByIdController } from "./controller";
 
-export const handler = adaptExpressProxyEvent(GetActivitiesController);
+export const handler = adaptExpressProxyEvent(GetActivityByIdController);

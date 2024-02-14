@@ -6,7 +6,7 @@ import { Activity } from "./types";
 
 const pool = new GaiaPoolDb();
 
-export class GetActivitiesController implements Controller {
+export class GetActivityByIdController implements Controller {
   async handle(request: HttpRequest): Promise<HttpResponse> {
     console.log("Start event Controller: ", request);
 
