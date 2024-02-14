@@ -15,7 +15,7 @@ export class GetEventByIdController implements Controller {
     const eventId = parseInt(request.params?.eventId!);
 
     try {
-      const event = await getActivityById(client, eventId);
+      const event = await getEventById(client, eventId);
 
       return {
         statusCode: 200,
@@ -33,7 +33,7 @@ export class GetEventByIdController implements Controller {
   }
 }
 
-async function getActivityById(client: GaiaClientDb, eventId: number) {
+async function getEventById(client: GaiaClientDb, eventId: number) {
   const response = await client.query({
     query: `
       SELECT 
@@ -41,14 +41,14 @@ async function getActivityById(client: GaiaClientDb, eventId: number) {
         name AS "eventName",
         description AS "description",
         CASE WHEN cover IS NOT NULL AND cover <> '' 
-            THEN true 
-            ELSE false 
-            END AS "hasCover",
-          gallery_url AS "driveGalleryLink",
-          coffee_payment_url AS "coffeePaymentUrl",
-          coffee_value AS "coffeeValue",
-          start_date AS "startDate",
-          end_date AS "endDate"
+          THEN true 
+          ELSE false 
+          END AS "hasCover",
+        gallery_url AS "driveGalleryLink",
+        coffee_payment_url AS "coffeePaymentUrl",
+        coffee_value AS "coffeeValue",
+        start_date AS "startDate",
+        end_date AS "endDate"
       FROM "event"
       WHERE id = $eventId
     `,
