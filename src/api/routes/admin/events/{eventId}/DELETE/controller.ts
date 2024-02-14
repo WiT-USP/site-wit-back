@@ -4,16 +4,16 @@ import { HttpRequest, HttpResponse } from "protocols/http";
 
 const pool = new GaiaPoolDb();
 
-export class deleteActivityController implements Controller {
+export class deleteEventController implements Controller {
   async handle(request: HttpRequest): Promise<HttpResponse> {
     console.log("Start event Controller: ", request);
 
     const client = await pool.connect();
 
-    const activityId = parseInt(request.params?.activityId!);
+    const eventId = parseInt(request.params?.eventId!);
 
     try {
-      await deleteActivity(client, activityId);
+      await deleteEvent(client, eventId);
 
       return {
         statusCode: 200,
@@ -31,16 +31,16 @@ export class deleteActivityController implements Controller {
   }
 }
 
-async function deleteActivity(client: GaiaClientDb, activityId: number) {
+async function deleteEvent(client: GaiaClientDb, eventId: number) {
   await client.query({
     query: `
-      UPDATE activity
+      UPDATE event
       SET 
         active = FALSE
-      WHERE id = $activityId;
+      WHERE id = $eventId;
     `,
     values: {
-      activityId,
+      eventId,
     },
   });
 }
