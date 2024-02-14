@@ -5,7 +5,7 @@ import { Body } from "./types";
 
 const pool = new GaiaPoolDb();
 
-export class CreatCertificateController implements Controller {
+export class CreateCertificateController implements Controller {
   async handle(request: HttpRequest<Body>): Promise<HttpResponse> {
     console.log("Start event Controller: ", request);
 
