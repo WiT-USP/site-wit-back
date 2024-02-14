@@ -2,22 +2,22 @@ import { formatDateTime } from "api/utils/format-date-time";
 import { GaiaClientDb, GaiaPoolDb } from "helpers";
 import { Controller } from "protocols/controller";
 import { HttpRequest, HttpResponse } from "protocols/http";
-import { Event } from "./types";
+import { Activity } from "./types";
 
 const pool = new GaiaPoolDb();
 
-export class GetEventsController implements Controller {
+export class GetActivitiesController implements Controller {
   async handle(request: HttpRequest): Promise<HttpResponse> {
     console.log("Start event Controller: ", request);
 
     const client = await pool.connect();
 
     try {
-      const events = await getEvents(client);
+      const activities = await getActivities(client);
 
       return {
         statusCode: 200,
-        body: events,
+        body: activities,
       };
     } catch (err) {
       console.error(err);
@@ -31,33 +31,27 @@ export class GetEventsController implements Controller {
   }
 }
 
-async function getEvents(client: GaiaClientDb) {
+async function getActivities(client: GaiaClientDb) {
   const response = await client.query({
     query: `
-      SELECT 
-        id AS "eventId",
-        "name" AS "eventName",
-        "start_date" AS "startDate",
-        "end_date" AS "endDate",
-        CASE WHEN cover IS NOT NULL AND cover <> '' 
-          THEN true 
-          ELSE false 
-          END AS "hasCover",
-        CASE WHEN coffee_payment_url IS NOT NULL AND coffee_payment_url <> '' 
-          THEN true 
-          ELSE false 
-          END AS "hasCoffee"
-      FROM "event"
+    SELECT 
+      a.id AS "activityId",
+      a."name" AS "activityName",
+      a."start_time" AS "date",
+      e."name" AS "eventName",
+      a.certificated AS "certificated"
+    FROM "activity" a
+    INNER JOIN "event" e ON e.id = a.event_id
+  
     `,
     values: {},
   });
 
   const formattedEvents = response.map((event) => {
     event.startDate = formatDateTime(event.startDate);
-    event.endDate = formatDateTime(event.endDate);
 
     return event;
   });
 
-  return formattedEvents as Event[];
+  return formattedEvents as Activity[];
 }
