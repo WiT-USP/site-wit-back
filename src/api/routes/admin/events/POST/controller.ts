@@ -1,18 +1,30 @@
 import { GaiaClientDb, GaiaPoolDb } from "helpers";
 import { Controller } from "protocols/controller";
 import { HttpRequest, HttpResponse } from "protocols/http";
-import { Event } from "./types";
+import { Body } from "./types";
 
 const pool = new GaiaPoolDb();
 
-export class GetEventsController implements Controller {
-  async handle(request: HttpRequest): Promise<HttpResponse> {
+export class CreatEventController implements Controller {
+  async handle(request: HttpRequest<Body>): Promise<HttpResponse> {
     console.log("Start event Controller: ", request);
 
     const client = await pool.connect();
 
+    const body = request.body;
+
+    // [VER DEPOIS] Adicionar tratativa de aramazenamento de imagens no bucket.
     try {
-      const events = await getEvents(client);
+      const events = await createEvent(client, {
+        eventName: body.eventName,
+        startDate: body.startDate,
+        endDate: body.endDate,
+        description: body.description,
+        cover: body.cover,
+        coffeValue: body.coffeValue,
+        coffeePaymentLink: body.coffeePaymentLink,
+        driveGaleryLink: body.driveGaleryLink,
+      });
 
       return {
         statusCode: 200,
@@ -30,26 +42,32 @@ export class GetEventsController implements Controller {
   }
 }
 
-async function getEvents(client: GaiaClientDb) {
-  const response = await client.query({
-    query: `
-      SELECT 
-        id AS "eventId",
-        "name" AS "eventName",
-        "start_date" AS "startDate",
-        "end_date" AS "endDate",
-        CASE WHEN cover IS NOT NULL AND cover <> '' 
-          THEN true 
-          ELSE false 
-          END AS "hasCover",
-        CASE WHEN coffee_payment_url IS NOT NULL AND coffee_payment_url <> '' 
-          THEN true 
-          ELSE false 
-          END AS "hasCoffee"
-      FROM "event"
-    `,
-    values: {},
-  });
+interface CreateEventParams {
+  eventName: string;
+  startDate: string;
+  endDate: string;
+  description?: string;
+  cover?: string;
+  coffeValue?: string;
+  coffeePaymentLink?: string;
+  driveGaleryLink?: string;
+}
 
-  return response as Event[];
+async function createEvent(client: GaiaClientDb, params: CreateEventParams) {
+  await client.query({
+    query: `
+      INSERT INTO "event" (name, description, cover, galery_url, coffee_payment_url, coffee_value, start_date, end_date)
+      VALUES ($name, $description, $cover, $galeryUrl, $coffeePaymentUrl, $coffeeValue, $startDate, $endDate)
+    `,
+    values: {
+      name: params.eventName,
+      description: params.description || null,
+      cover: params.cover || null,
+      galeryUrl: params.driveGaleryLink || null,
+      coffeePaymentUrl: params.coffeePaymentLink || null,
+      coffeeValue: params.coffeValue || null,
+      startDate: params.startDate,
+      endDate: params.endDate,
+    },
+  });
 }

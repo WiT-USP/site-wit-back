@@ -1,8 +1,10 @@
-export interface Event {
-  eventId: number;
+export interface Body {
   eventName: string;
   startDate: string;
   endDate: string;
-  hasCover: boolean;
-  hasCoffee: boolean;
+  description?: string;
+  cover?: string;
+  coffeValue?: string;
+  coffeePaymentLink?: string;
+  driveGaleryLink?: string;
 }

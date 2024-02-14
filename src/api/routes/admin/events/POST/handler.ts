@@ -1,4 +1,4 @@
 import { adaptExpressProxyEvent } from "adapters/express-proxy-handler";
-import { GetEventsController } from "./controller";
+import { CreatEventController } from "./controller";
 
-export const handler = adaptExpressProxyEvent(GetEventsController);
+export const handler = adaptExpressProxyEvent(CreatEventController);
