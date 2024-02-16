@@ -64,7 +64,8 @@ async function createCertificatedActivityUser(
   await client.queryWithoutFormatting({
     query: `
       INSERT INTO "user_activity_certificate" (user_activity_id, certificate_id)
-      VALUES ${values.join(",")};
+      VALUES ${values.join(",")}
+      ON CONFLICT (user_activity_id, certificate_id) DO NOTHING;
     `,
     values,
   });
