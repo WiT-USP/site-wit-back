@@ -13,12 +13,16 @@ export class CreateCertificatedActivityUserController implements Controller {
 
     const body = request.body;
 
+    const certificatedId = parseInt(request.params?.certificatedId!);
+
     // [VER DEPOIS]
     // [1] Criar validações
     // [2] Ver sobre criar arquivo
-    // [3] Criar query para esse caso que é um vetor
     try {
-      await createCertificatedActivityUser(client, body.userActivityIds);
+      await createCertificatedActivityUser(client, {
+        certificatedId,
+        userActivityIds: body.userActivityIds,
+      });
 
       return {
         statusCode: 200,
@@ -36,15 +40,32 @@ export class CreateCertificatedActivityUserController implements Controller {
   }
 }
 
+interface CreateCertificatedActivityUserParams {
+  userActivityIds: number[];
+  certificatedId: number;
+}
+
 async function createCertificatedActivityUser(
   client: GaiaClientDb,
-  userActivityIds: number[]
+  params: CreateCertificatedActivityUserParams
 ) {
-  await client.query({
+  const values: any[] = [];
+  params.userActivityIds.forEach((userActivityId, index) => {
+    const offset = index * 2;
+    values.push(userActivityId);
+    values.push(params.certificatedId);
+
+    return `(
+      $${offset + 1},
+      $${offset + 2}
+    )`;
+  });
+
+  await client.queryWithoutFormatting({
     query: `
+      INSERT INTO "user_activity_certificate" (user_activity_id, certificate_id)
+      VALUES ${values.join(",")};
     `,
-    values: {
-      userActivityIds,
-    },
+    values,
   });
 }
