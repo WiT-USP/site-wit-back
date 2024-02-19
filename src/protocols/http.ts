@@ -8,6 +8,7 @@ export type HttpRequest<T = any> = {
   query?: ParsedQs;
   locals?: Record<string, string>;
   body: T;
+  file?: Express.Multer.File;
 };
 
 export type HttpResponse<T = any> = {
