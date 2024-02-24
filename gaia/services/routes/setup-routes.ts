@@ -1,3 +1,4 @@
+import bodyParser from "body-parser";
 import { Express } from "express";
 
 import { GaiaRoutesRequest } from "./types";
@@ -6,6 +7,9 @@ export async function setupRoutes(routes: GaiaRoutesRequest[], app: Express) {
   console.log("\n[setupRoutes] Starting routes creation ");
 
   try {
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
+
     for (const route of routes) {
       if (route.dirRoute) {
         const handler = await importHandler(route.dirRoute);

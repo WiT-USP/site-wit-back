@@ -13,16 +13,12 @@ export class CreatEventController implements Controller {
 
     const body = request.body;
 
-    // [VER DEPOIS]
-    // [1] Adicionar tratativa de aramazenamento de imagens no bucket.
-    // [2] Criar validações
     try {
       await createEvent(client, {
         eventName: body.eventName,
         startDate: body.startDate,
         endDate: body.endDate,
         description: body?.description,
-        cover: body?.cover,
         coffeValue: body?.coffeValue,
         coffeePaymentLink: body?.coffeePaymentLink,
         driveGalleryLink: body?.driveGaleryLink,
@@ -49,7 +45,6 @@ interface CreateEventParams {
   startDate: string;
   endDate: string;
   description?: string;
-  cover?: string;
   coffeValue?: string;
   coffeePaymentLink?: string;
   driveGalleryLink?: string;
@@ -58,13 +53,12 @@ interface CreateEventParams {
 async function createEvent(client: GaiaClientDb, params: CreateEventParams) {
   await client.query({
     query: `
-      INSERT INTO "event" (name, description, cover, gallery_url, coffee_payment_url, coffee_value, start_date, end_date)
-      VALUES ($name, $description, $cover, $galleryUrl, $coffeePaymentUrl, $coffeeValue, $startDate, $endDate)
+      INSERT INTO "event" (name, description, gallery_url, coffee_payment_url, coffee_value, start_date, end_date)
+      VALUES ($name, $description, $galleryUrl, $coffeePaymentUrl, $coffeeValue, $startDate, $endDate)
     `,
     values: {
       name: params.eventName,
       description: params.description || null,
-      cover: params.cover || null,
       galleryUrl: params.driveGalleryLink || null,
       coffeePaymentUrl: params.coffeePaymentLink || null,
       coffeeValue: params.coffeValue || null,

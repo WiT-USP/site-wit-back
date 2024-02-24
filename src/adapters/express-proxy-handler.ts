@@ -5,10 +5,7 @@ export function adaptExpressProxyEvent(ControllerClass: new () => Controller) {
   const controller = new ControllerClass();
 
   return async (req: Request, res: Response, next: NextFunction) => {
-    console.log(
-      "[adaptExpressProxyEvent] Starting execution:",
-      JSON.stringify(req.body)
-    );
+    console.log("[adaptExpressProxyEvent] Starting execution:", req.body);
 
     try {
       const httpResponse = await controller.handle({
