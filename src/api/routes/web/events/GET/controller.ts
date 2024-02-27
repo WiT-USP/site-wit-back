@@ -1,24 +1,22 @@
 import { GaiaClientDb, GaiaPoolDb } from "helpers";
 import { Controller } from "protocols/controller";
 import { HttpRequest, HttpResponse } from "protocols/http";
-import { User } from "./types";
+import { Event } from "./types";
 
 const pool = new GaiaPoolDb();
 
-export class GetUserController implements Controller {
+export class GetEventsController implements Controller {
   async handle(request: HttpRequest): Promise<HttpResponse> {
     console.log("Start event Controller: ", request);
-
-    const userId = parseInt(request?.params?.userId!);
 
     const client = await pool.connect();
 
     try {
-      const user = await getUserById(client, userId);
+      const events = await getEvents(client);
 
       return {
         statusCode: 200,
-        body: user,
+        body: events,
       };
     } catch (err) {
       console.error(err);
@@ -32,19 +30,21 @@ export class GetUserController implements Controller {
   }
 }
 
-async function getUserById(client: GaiaClientDb, userId: number) {
+async function getEvents(client: GaiaClientDb) {
   const response = await client.query({
     query: `
       SELECT 
-        name, 
-        email   
-      FROM "user" 
-      WHERE id = $userId
+        e."name" AS "name",
+        e.start_date AS "startDate",
+        e.end_date  AS "endDate",
+        COUNT(a.id) AS "activities"
+      FROM "event" e 
+      LEFT JOIN activity a ON a.event_id = e.id 
+      WHERE e.active = true
+      GROUP BY e."name", e.start_date, e.end_date, e.coffee_payment_url, e.coffee_value, e.gallery_url 
     `,
-    values: {
-      userId: userId,
-    },
+    values: {},
   });
 
-  return response[0] as User;
+  return response as Event[];
 }

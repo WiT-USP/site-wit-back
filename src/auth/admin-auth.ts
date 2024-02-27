@@ -4,7 +4,6 @@ const pool = new GaiaPoolDb();
 
 export async function authenticateAdminUser(token: string) {
   const client = await pool.connect();
+
   return true;
 }
-
-async function getUserByEmail(email: string) {}

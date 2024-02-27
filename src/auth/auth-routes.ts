@@ -5,7 +5,7 @@ export function checkRouteAuth(
   res: Response,
   next: NextFunction
 ) {
-  const allowedOrigins = ["http://yourfrontend.com"]; // Add your frontend URL here
+  const allowedOrigins = [process.env.FRONT_URL]; // Add your frontend URL here
   const origin = req.headers.origin!;
 
   if (allowedOrigins.includes(origin)) {
