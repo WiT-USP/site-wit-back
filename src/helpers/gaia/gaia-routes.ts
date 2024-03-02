@@ -1,4 +1,3 @@
-import { checkRouteAuth } from "auth/auth-routes";
 import express from "express";
 import { GaiaRoutes } from "../../../gaia/index";
 
@@ -18,8 +17,8 @@ export class GaiaRouterHelper {
 
     const gaiaRoute = new GaiaRoutes(app, base);
 
-    app.use(express.json());
-    app.use(checkRouteAuth);
+    //app.use(express.json());
+    //app.use(checkRouteAuth);
     await gaiaRoute.createAllRoutes();
 
     app.listen(this.port, this.host, () => {

@@ -1,7 +1,9 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
+
+import { HttpRequest } from "protocols/http";
 
 export function checkRouteAuth(
-  req: Request,
+  req: HttpRequest,
   res: Response,
   next: NextFunction
 ) {
@@ -19,6 +21,6 @@ export function checkRouteAuth(
   } else {
     return res
       .status(403)
-      .json({ message: "Access denied. Not allowed origin." });
+      .json({ error: "Acesso negado. Origim não alterizada." });
   }
 }

@@ -9,6 +9,7 @@ export type HttpRequest<T = any> = {
   locals?: Record<string, string>;
   body: T;
   file?: Express.Multer.File;
+  user?: any;
 };
 
 export type HttpResponse<T = any> = {

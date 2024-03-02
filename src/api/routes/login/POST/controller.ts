@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-import { authenticateAdminUser } from "auth/admin-auth";
 import { GaiaClientDb, GaiaPoolDb } from "helpers";
 import { Controller } from "protocols/controller";
 import { HttpRequest, HttpResponse } from "protocols/http";
-import { Body } from "./types";
+import { Body, User } from "./types";
 
 const pool = new GaiaPoolDb();
 
@@ -14,15 +14,13 @@ export class CreatEventController implements Controller {
 
     const client = await pool.connect();
 
-    const token = request?.headers?.authorization?.split(" ")[1];
     const body = request.body;
 
     try {
-      if (!token) throw new Error("Token not provides");
-
-      authenticateAdminUser(token);
-
-      const passwordHash = await getUserByEmail(client, body.email);
+      const { passwordHash, userName, userId } = await getUserByEmail(
+        client,
+        body.email
+      );
 
       const passwordVerficated = await bcrypt.compare(
         body.password,
@@ -31,9 +29,11 @@ export class CreatEventController implements Controller {
 
       if (!passwordVerficated) throw new Error("Incorrect password");
 
+      const token = jwt.sign({ userName, userId }, process.env.JWT_TOKEN_KEY!);
+
       return {
         statusCode: 200,
-        body: { success: true },
+        body: { token },
       };
     } catch (err) {
       console.error(err);
@@ -51,7 +51,9 @@ async function getUserByEmail(client: GaiaClientDb, email: string) {
   const response = await client.query({
     query: `
       SELECT 
-          password_hash  AS "passwordHash" 
+        id AS "userId",
+        name AS "userName",
+        password_hash  AS "passwordHash"
       FROM "user"
       WHERE email = $email AND password_hash IS NOT NULL AND active = TRUE 
     `,
@@ -60,5 +62,5 @@ async function getUserByEmail(client: GaiaClientDb, email: string) {
     },
   });
 
-  return response[0].passwordHash as string;
+  return response[0] as User;
 }
