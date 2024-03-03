@@ -1,5 +1,6 @@
 export interface Event {
-  name: string;
+  eventId: number;
+  eventName: string;
   startDate: string;
   endDate: string;
   activities: number;

@@ -16,7 +16,7 @@ export class GaiaPoolDb {
     this.password = process.env.DB_PASSWORD || "";
     this.port = process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432;
   }
-  // Vou porecisar configurar outras funções
+
   async connect() {
     const config = {
       user: this.user,

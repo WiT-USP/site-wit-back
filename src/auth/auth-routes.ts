@@ -21,6 +21,6 @@ export function checkRouteAuth(
   } else {
     return res
       .status(403)
-      .json({ error: "Acesso negado. Origim não alterizada." });
+      .json({ error: "Acesso negado. Origem não altorizada." });
   }
 }

@@ -34,14 +34,15 @@ async function getEvents(client: GaiaClientDb) {
   const response = await client.query({
     query: `
       SELECT 
-        e."name" AS "name",
+        e.id AS "eventId",
+        e."name" AS "eventName",
         e.start_date AS "startDate",
         e.end_date  AS "endDate",
         COUNT(a.id) AS "activities"
       FROM "event" e 
       LEFT JOIN activity a ON a.event_id = e.id 
       WHERE e.active = true
-      GROUP BY e."name", e.start_date, e.end_date, e.coffee_payment_url, e.coffee_value, e.gallery_url 
+      GROUP BY e.id, e."name", e.start_date, e.end_date, e.coffee_payment_url, e.coffee_value, e.gallery_url 
     `,
     values: {},
   });
