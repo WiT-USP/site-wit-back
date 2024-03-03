@@ -59,5 +59,5 @@ async function getEventById(client: GaiaClientDb, eventId: number) {
     },
   });
 
-  return response[0] as Event;
+  return response as Event[];
 }

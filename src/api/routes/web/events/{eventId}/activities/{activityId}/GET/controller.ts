@@ -41,12 +41,13 @@ async function getActivityEventById(
   const response = await client.query({
     query: `
       SELECT
-      "name" AS "name",
+      "name" AS "activityName",
       subject AS "subject",
       responsible AS "responsible",
       start_time AS "startTime",
       end_time  AS "endTime",
-      certificated AS "certicated"
+      certificated AS "certicated",
+      registration_at AS "registrationAt"
     FROM activity a
     WHERE event_id = $eventId AND id = $activityId AND active = true 
     `,
@@ -56,5 +57,5 @@ async function getActivityEventById(
     },
   });
 
-  return response[0] as Activity;
+  return response as Activity[];
 }

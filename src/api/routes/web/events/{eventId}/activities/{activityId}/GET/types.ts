@@ -1,6 +1,9 @@
 export interface Activity {
-  name: string;
-  startDate: string;
-  endDate: string;
-  activities: number;
+  activityName: string;
+  subject: string;
+  responsible: string;
+  startTime: string;
+  endtime: string;
+  certificated: boolean;
+  registrationAt: string;
 }

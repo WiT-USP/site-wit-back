@@ -17,8 +17,8 @@ export function formatPathRoutes(routes: GaiaRoutesRequest[]) {
       route.pathRoute = route.pathRoute.replace(`/${method}`, ""); // retirando o método do path
     }
 
-    route.pathRoute = route.pathRoute.replace("{", ":"); // formatando chaves de rotas (Ids)
-    route.pathRoute = route.pathRoute.replace("}", "");
+    route.pathRoute = route.pathRoute.replace(/{/g, ":"); // formatando chaves de rotas (Ids)
+    route.pathRoute = route.pathRoute.replace(/}/g, "");
   }
 
   console.log("\n[formatPatchRoutes] output ", JSON.stringify(routes), "\n");
