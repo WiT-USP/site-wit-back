@@ -1,4 +1,3 @@
-import { formatDateTime } from "api/utils/format-date-time";
 import { GaiaClientDb, GaiaPoolDb } from "helpers";
 import { Controller } from "protocols/controller";
 import { HttpRequest, HttpResponse } from "protocols/http";
@@ -54,12 +53,5 @@ async function getEvents(client: GaiaClientDb) {
     values: {},
   });
 
-  const formattedEvents = response.map((event) => {
-    event.startDate = formatDateTime(event.startDate);
-    event.endDate = formatDateTime(event.endDate);
-
-    return event;
-  });
-
-  return formattedEvents as Event[];
+  return response as Event[];
 }

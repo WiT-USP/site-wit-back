@@ -1,5 +1,7 @@
-import { checkRouteAuth } from "auth/auth-routes";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 import express from "express";
+
 import { GaiaRoutes } from "../../../gaia/index";
 
 export class GaiaRouterHelper {
@@ -19,7 +21,16 @@ export class GaiaRouterHelper {
     const gaiaRoute = new GaiaRoutes(app, base);
 
     app.use(express.json());
-    app.use(checkRouteAuth);
+    // app.use(checkRouteAuth);
+    app.use(
+      cors({
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        origin: process.env.FRONT_URL,
+      })
+    );
+    app.use(cookieParser());
+
     await gaiaRoute.createAllRoutes();
 
     app.listen(this.port, this.host, () => {

@@ -17,7 +17,9 @@ export function adaptExpressProxyEvent(ControllerClass: new () => Controller) {
 
     try {
       if (isProtectedRoute(req.path)) {
-        const token = req.headers.authorization?.split(" ")[1];
+        const cookies = req.cookies;
+
+        const token = cookies.token;
 
         if (!token) {
           return res
@@ -45,6 +47,20 @@ export function adaptExpressProxyEvent(ControllerClass: new () => Controller) {
         JSON.stringify(httpResponse)
       );
 
+      if (isLogin(req.path)) {
+        console.log("[adaptExpressProxyEvent] adding cookie");
+
+        const token = httpResponse.body?.token;
+
+        console.log("[adaptExpressProxyEvent] token ", token);
+        res.cookie("token", token, {
+          maxAge: 1 * 60 * 60 * 1000, // 1 hora
+          path: "/admin",
+          httpOnly: true,
+          sameSite: "strict",
+        });
+      }
+
       res.status(httpResponse.statusCode).json(httpResponse.body);
     } catch (error) {
       console.error("[adaptExpressProxyEvent] Error during execution:", error);
@@ -57,7 +73,10 @@ function isProtectedRoute(path: string): boolean {
   return path.startsWith("/admin");
 }
 
-// Função para verificar o token JWT de forma assíncrona
+function isLogin(path: string): boolean {
+  return path.startsWith("/login");
+}
+
 function verifyTokenAsync(token: string) {
   return new Promise((resolve, reject) => {
     jwt.verify(token, process.env.JWT_TOKEN_KEY!, (err, decoded) => {
