@@ -43,6 +43,7 @@ async function getActivityEventById(
       SELECT
       "name" AS "activityName",
       subject AS "subject",
+      "local" AS "local",
       responsible AS "responsible",
       start_time AS "startTime",
       end_time  AS "endTime",
