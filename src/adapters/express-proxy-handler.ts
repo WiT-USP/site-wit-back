@@ -54,7 +54,7 @@ export function adaptExpressProxyEvent(ControllerClass: new () => Controller) {
 
         console.log("[adaptExpressProxyEvent] token ", token);
         res.cookie("token", token, {
-          maxAge: 1 * 60 * 60 * 1000, // 1 hora
+          maxAge: 10 * 60 * 1000, // 1 hora
           path: "/admin",
           httpOnly: true,
           sameSite: "strict",

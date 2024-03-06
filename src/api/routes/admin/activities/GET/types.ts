@@ -1,7 +1,8 @@
 export interface Activity {
   activityId: number;
   eventName: string;
-  date: string;
+  startDate: string;
+  endDate: string;
   activityName: string;
   cerficated: boolean;
 }

@@ -1,4 +1,3 @@
-import { formatDateTime } from "api/utils/format-date-time";
 import { GaiaClientDb, GaiaPoolDb } from "helpers";
 import { Controller } from "protocols/controller";
 import { HttpRequest, HttpResponse } from "protocols/http";
@@ -42,22 +41,18 @@ async function getActivities(
       SELECT 
         a.id AS "activityId",
         a."name" AS "activityName",
-        a."start_time" AS "date",
+        a."start_time" AS "startDate",
+        a."end_time" AS "endDate,",
         e."name" AS "eventName",
         a.certificated AS "certificated"
       FROM "activity" a
-      ${searchParam !== "null" ? `AND a."name" ILIKE '%${searchParam}%'` : ""}
       INNER JOIN "event" e ON e.id = a.event_id
+      WHERE a.active = true
+      ${searchParam !== "null" ? `AND a."name" ILIKE '%${searchParam}%'` : ""}
       ORDER BY a.id
     `,
     values: {},
   });
 
-  const formattedEvents = response.map((event) => {
-    event.startDate = formatDateTime(event.startDate);
-
-    return event;
-  });
-
-  return formattedEvents as Activity[];
+  return response as Activity[];
 }

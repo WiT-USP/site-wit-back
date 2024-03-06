@@ -47,8 +47,9 @@ async function getCertificates(
             ELSE false 
             END AS "hasTemplate"
       FROM certificate c
-      ${searchParam !== "null" ? `AND a."name" ILIKE '%${searchParam}%'` : ""}
       INNER JOIN activity a ON a.id = c.activity_id
+      WHERE c.active = true
+      ${searchParam !== "null" ? `AND a."name" ILIKE '%${searchParam}%'` : ""}
       ORDER BY c.id
     `,
     values: {},
