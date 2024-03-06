@@ -1,18 +1,20 @@
 import { GaiaClientDb, GaiaPoolDb } from "helpers";
 import { Controller } from "protocols/controller";
 import { HttpRequest, HttpResponse } from "protocols/http";
-import { Certificate } from "./types";
+import { Body, Certificate, Query } from "./types";
 
 const pool = new GaiaPoolDb();
 
 export class GetCertificatesController implements Controller {
-  async handle(request: HttpRequest): Promise<HttpResponse> {
+  async handle(request: HttpRequest<Body, Query>): Promise<HttpResponse> {
     console.log("Start event Controller: ", request);
+
+    const searchParam = request.query?.searchParam;
 
     const client = await pool.connect();
 
     try {
-      const certificates = await getCertificates(client);
+      const certificates = await getCertificates(client, searchParam);
 
       return {
         statusCode: 200,
@@ -30,7 +32,10 @@ export class GetCertificatesController implements Controller {
   }
 }
 
-async function getCertificates(client: GaiaClientDb) {
+async function getCertificates(
+  client: GaiaClientDb,
+  searchParam: string | undefined
+) {
   const response = await client.query({
     query: `
       SELECT 
@@ -42,6 +47,7 @@ async function getCertificates(client: GaiaClientDb) {
             ELSE false 
             END AS "hasTemplate"
       FROM certificate c
+      ${searchParam !== "null" ? `AND a."name" ILIKE '%${searchParam}%'` : ""}
       INNER JOIN activity a ON a.id = c.activity_id
       ORDER BY c.id
     `,

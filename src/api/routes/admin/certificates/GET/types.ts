@@ -4,3 +4,9 @@ export interface Certificate {
   workload: number;
   hasTemplate: boolean;
 }
+
+export interface Body {}
+
+export interface Query {
+  searchParam: string;
+}

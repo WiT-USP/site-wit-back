@@ -2,18 +2,20 @@ import { formatDateTime } from "api/utils/format-date-time";
 import { GaiaClientDb, GaiaPoolDb } from "helpers";
 import { Controller } from "protocols/controller";
 import { HttpRequest, HttpResponse } from "protocols/http";
-import { Activity } from "./types";
+import { Activity, Body, Query } from "./types";
 
 const pool = new GaiaPoolDb();
 
 export class GetActivitiesController implements Controller {
-  async handle(request: HttpRequest): Promise<HttpResponse> {
+  async handle(request: HttpRequest<Body, Query>): Promise<HttpResponse> {
     console.log("Start event Controller: ", request);
+
+    const searchParam = request.query?.searchParam;
 
     const client = await pool.connect();
 
     try {
-      const activities = await getActivities(client);
+      const activities = await getActivities(client, searchParam);
 
       return {
         statusCode: 200,
@@ -31,7 +33,10 @@ export class GetActivitiesController implements Controller {
   }
 }
 
-async function getActivities(client: GaiaClientDb) {
+async function getActivities(
+  client: GaiaClientDb,
+  searchParam: string | undefined
+) {
   const response = await client.query({
     query: `
       SELECT 
@@ -41,6 +46,7 @@ async function getActivities(client: GaiaClientDb) {
         e."name" AS "eventName",
         a.certificated AS "certificated"
       FROM "activity" a
+      ${searchParam !== "null" ? `AND a."name" ILIKE '%${searchParam}%'` : ""}
       INNER JOIN "event" e ON e.id = a.event_id
       ORDER BY a.id
     `,

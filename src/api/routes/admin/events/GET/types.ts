@@ -6,3 +6,9 @@ export interface Event {
   hasCover: boolean;
   hasCoffee: boolean;
 }
+
+export interface Body {}
+
+export interface Query {
+  searchParam: string;
+}

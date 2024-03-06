@@ -1,18 +1,20 @@
 import { GaiaClientDb, GaiaPoolDb } from "helpers";
 import { Controller } from "protocols/controller";
 import { HttpRequest, HttpResponse } from "protocols/http";
-import { Event } from "./types";
+import { Event, Query } from "./types";
 
 const pool = new GaiaPoolDb();
 
 export class GetEventsController implements Controller {
-  async handle(request: HttpRequest): Promise<HttpResponse> {
+  async handle(request: HttpRequest<Body, Query>): Promise<HttpResponse> {
     console.log("Start event Controller: ", request);
+
+    const searchParam = request.query?.searchParam;
 
     const client = await pool.connect();
 
     try {
-      const events = await getEvents(client);
+      const events = await getEvents(client, searchParam);
 
       return {
         statusCode: 200,
@@ -30,7 +32,10 @@ export class GetEventsController implements Controller {
   }
 }
 
-async function getEvents(client: GaiaClientDb) {
+async function getEvents(
+  client: GaiaClientDb,
+  searchParam: string | undefined
+) {
   const response = await client.query({
     query: `
       SELECT 
@@ -48,6 +53,7 @@ async function getEvents(client: GaiaClientDb) {
           END AS "hasCoffee"
       FROM "event"
       WHERE active = TRUE
+      ${searchParam !== "null" ? `AND "name" ILIKE '%${searchParam}%'` : ""}
       ORDER BY id
     `,
     values: {},

@@ -1,11 +1,10 @@
 import { ParamsDictionary } from "express-serve-static-core";
 import { IncomingHttpHeaders } from "http";
-import { ParsedQs } from "qs";
 
-export type HttpRequest<T = any> = {
+export type HttpRequest<T = any, Q = any> = {
   headers: IncomingHttpHeaders;
   params?: ParamsDictionary;
-  query?: ParsedQs;
+  query?: Q;
   locals?: Record<string, string>;
   body: T;
   file?: Express.Multer.File;

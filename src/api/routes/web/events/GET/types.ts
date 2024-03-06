@@ -5,3 +5,9 @@ export interface Event {
   endDate: string;
   activities: number;
 }
+
+export interface Body {}
+
+export interface Query {
+  searchParam: string;
+}
