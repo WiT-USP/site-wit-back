@@ -17,27 +17,54 @@ export class CreatEventController implements Controller {
     const body = request.body;
 
     try {
-      const { passwordHash, userName, userId } = await getUserByEmail(
-        client,
-        body.email
-      );
+      let user: User | undefined
 
-      const passwordVerficated = await bcrypt.compare(
-        body.password,
-        passwordHash
-      );
+      try{
+        user = await getUserByEmail(
+          client,
+          body.email
+        );
+      } catch (err) {
+        throw new Error("Incorrect password");
+      }
+      
+      if(user) {
+        const passwordVerficated = await bcrypt.compare(
+          body.password,
+          user.passwordHash
+        );
+        if (!passwordVerficated) throw new Error("Incorrect password");
 
-      if (!passwordVerficated) throw new Error("Incorrect password");
-
-      const token = jwt.sign({ userName, userId }, process.env.JWT_TOKEN_KEY!);
-
-      return {
-        statusCode: 200,
-        body: { token },
-      };
-    } catch (err) {
+        const token = jwt.sign(
+          { 
+            userName: user.userName, 
+            userId: user.userId 
+          }, 
+          process.env.JWT_TOKEN_KEY!
+        )
+        return {
+          statusCode: 200,
+          body: { token },
+        };
+      } else {
+        throw new Error("Incorrect password ");
+        
+      }
+    } catch (err: any) {
       console.error(err);
 
+      if (err.message == "Incorrect password") {
+        return {
+          statusCode: 400,
+          body: {
+            error: {
+              title: "Falha no login",
+              message: "E-mail e/ou Senha informados estão incorretos!",
+              code: 400,
+            },
+          },
+        };
+      }
       return {
         statusCode: 500,
       };
@@ -62,5 +89,5 @@ async function getUserByEmail(client: GaiaClientDb, email: string) {
     },
   });
 
-  return response[0] as User;
+  return response[0] as User | undefined;
 }

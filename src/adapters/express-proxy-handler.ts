@@ -24,7 +24,12 @@ export function adaptExpressProxyEvent(ControllerClass: new () => Controller) {
         if (!token) {
           return res
             .status(401)
-            .json({ error: "Token de autenticação não fornecido." });
+            .json({ 
+              error: { 
+                title: "Página não disponível",
+                message: "Token de autenticação não fornecido." 
+              }
+            });
         }
         try {
           const decoded = await verifyTokenAsync(token);
