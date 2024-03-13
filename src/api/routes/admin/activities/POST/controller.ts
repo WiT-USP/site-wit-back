@@ -13,8 +13,6 @@ export class CreatEventController implements Controller {
 
     const body = request.body;
 
-    // [VER DEPOIS]
-    // [1] Criar validações
     try {
       await createActivity(client, {
         activityName: body.activityName,
