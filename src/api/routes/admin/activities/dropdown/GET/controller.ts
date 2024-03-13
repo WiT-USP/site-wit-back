@@ -38,7 +38,7 @@ async function getDropdownEvents(client: GaiaClientDb) {
         name AS "eventName"
       FROM "event"
     `,
-    values: {},
+    values: {}, 
   });
 
   return response as EventDropdown[];

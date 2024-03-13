@@ -47,7 +47,7 @@ export class CreatEventController implements Controller {
           body: { token },
         };
       } else {
-        throw new Error("Incorrect password ");
+        throw new Error("Incorrect password");
         
       }
     } catch (err: any) {
