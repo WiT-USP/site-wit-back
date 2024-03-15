@@ -6,6 +6,6 @@ export interface Activity {
   description?: string;
   subject: string;
   responsible: string;
-  eventName: string;
+  eventId: number;
   registrationAt: string;
 }

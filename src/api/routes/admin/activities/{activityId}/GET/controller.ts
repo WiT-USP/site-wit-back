@@ -43,10 +43,9 @@ async function getActivityById(client: GaiaClientDb, activityId: number) {
         a.description AS "description",
         a.subject AS "subject",
         a.responsible AS "responsible",
-        e.name AS "eventName",
+        a.event_id AS "eventId",
         a.registration_at AS "registrationAt"
       FROM "activity" a 
-      INNER JOIN "event" e ON e.id = a.event_id
       WHERE a.id = $activityId
     `,
     values: {

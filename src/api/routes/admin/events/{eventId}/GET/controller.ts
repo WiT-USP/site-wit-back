@@ -38,6 +38,7 @@ async function getEventById(client: GaiaClientDb, eventId: number) {
     query: `
       SELECT 
         id AS "eventId",
+        local AS "local",
         name AS "eventName",
         description AS "description",
         CASE WHEN cover IS NOT NULL AND cover <> '' 
