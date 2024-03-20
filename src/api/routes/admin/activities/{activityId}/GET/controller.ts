@@ -56,6 +56,7 @@ async function getActivityById(client: GaiaClientDb, activityId: number) {
   const formattedEvents = response.map((event) => {
     event.startTime = formatDateTime(event.startTime);
     event.endTime = formatDateTime(event.endTime);
+    event.registrationAt = formatDateTime(event.registrationAt)
     return event;
   });
 
