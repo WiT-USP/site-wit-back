@@ -1,8 +1,10 @@
-# SITE WOMEN IN TECH BACK-END
+![image](https://github.com/WiT-USP/site-wit-back/assets/117329386/009cbe9f-96a2-4a0e-a42e-3f0b4a4af4bf)# SITE WOMEN IN TECH BACK-END
 
-Sejam bem vindas. Área dedicada para explicação de como vamos desenvolver esse projeto. Irei separando em sections conforme for sendo necessário.
+Sejam bem vindas 💜. Área dedicada para explicação de como vamos desenvolver esse projeto. Irei separando em sections conforme for sendo necessário.
 
-Sugestão: Leiam o tópico `Um pouco sobre Git:` do documento de `Materiais de estudo Back-end`.
+## Introdução ✨
+
+Projeto do back para nosso grupo extra currícular, além do objetivo de termos um site próprio, também aproveitamos para colocar em prática e aprimorar nossos conhecimentos relacionados a desenvolvimento web, nesse projeto usamos o ambiente Node, por ser mais flexível e versátil. Essa é apenas a primeira versão, a ideia é sempre estarmos atualizando-o para mante-lo em dia com as tecnologias de desenvolvimento web relevantes e também implementar funções que tornem nosso site cada vez mais completo.
 
 ## Rodar o projeto
 
@@ -18,11 +20,9 @@ npm install
 npm run start:dev
 ```
 
-Para mais instruções vá para a section do docker
-
 ## Facilitadores
 
-Para qume for ajudar a desenvolver o projeto, criei um lib de classes facilitadoras, até o momento tenho mente duas classes para desenvolver, uma que auxília as requisições ao BD e outra que monta as rotas da aplicação de forma automática para nosso projeto.
+Para quem for ajudar a desenvolver o projeto, criei um lib de classes facilitadoras, até o momento tenho mente duas classes para desenvolver, uma que auxília as requisições ao BD e outra que monta as rotas da aplicação de forma automática para nosso projeto.
 
 A biblioteca que centraliza isso é a "gaia".
 
