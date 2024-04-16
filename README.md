@@ -1,4 +1,4 @@
-![image](https://github.com/WiT-USP/site-wit-back/assets/117329386/009cbe9f-96a2-4a0e-a42e-3f0b4a4af4bf)# SITE WOMEN IN TECH BACK-END
+# SITE WOMEN IN TECH BACK-END
 
 Sejam bem vindas 💜. Área dedicada para explicação de como vamos desenvolver esse projeto. Irei separando em sections conforme for sendo necessário.
 
