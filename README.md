@@ -22,7 +22,7 @@ npm run start:dev
 
 ## Facilitadores
 
-Para quem for ajudar a desenvolver o projeto, criei um lib de classes facilitadoras, até o momento tenho mente duas classes para desenvolver, uma que auxília as requisições ao BD e outra que monta as rotas da aplicação de forma automática para nosso projeto.
+Para quem for ajudar a desenvolver o projeto, criei um lib de classes facilitadoras, até o momento tenho em mente duas classes para desenvolver, uma que auxília as requisições ao BD e outra que monta as rotas da aplicação de forma automática para nosso projeto.
 
 A biblioteca que centraliza isso é a "gaia".
 
